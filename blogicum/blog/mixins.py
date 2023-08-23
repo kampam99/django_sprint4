@@ -34,7 +34,7 @@ class PostListsMixin(ListView):
         )
 
 
-class PostRedactMixin():
+class PostRedactMixin:
     model = Post
     template_name = "blog/create.html"
     pk_url_kwarg = "post_id"
@@ -49,7 +49,7 @@ class PostRedactMixin():
         return super().dispatch(request, args, **kwargs)
 
 
-class CommentRedactMixin():
+class CommentRedactMixin:
     model = Comment
     template_name = "blog/comment.html"
     pk_url_kwarg = "comment_id"
