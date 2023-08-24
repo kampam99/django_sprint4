@@ -52,16 +52,12 @@ class ProfileDetailView(PostListsMixin):
             User, username=self.kwargs.get("username")
         )
         if self.user != self.request.user:
-            queryset = super().get_queryset(*args, **kwargs).filter(
-                author=self.user
+            queryset = (
+                Post.objects.select_related("author", "category", "location")
+                .order_by("-pub_date")
+                .filter(author=self.user)
+                .annotate(comment_count=Count("comments"))
             )
-        queryset = (
-            Post.objects.select_related("author", "category", "location")
-            .all()
-            .order_by("-pub_date")
-            .filter(author=self.user)
-            .annotate(comment_count=Count("comments"))
-        )
         return queryset
 
     def get_context_data(self, *args, **kwargs):
